@@ -1,0 +1,58 @@
+version: "3.4"
+services:
+    postgres-strategy:
+        restart: always
+        image: postgres:10
+        volumes:
+            - postgres-strategy:/var/lib/postgresql/data
+        expose:
+            - "5432"
+        environment:
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "${PW_POSTGRES}"
+
+    strategy:
+        restart: always
+        image: aegee/strategy:latest
+        volumes:
+            - strategy-media:/usr/app/media
+            - shared:/usr/app/shared:ro
+        depends_on:
+            - postgres-strategy
+        expose:
+            - "8084"
+        environment:
+            BUGSNAG_KEY: "${BUGSNAG_KEY_STRATEGY}"
+            PG_PASSWORD: "${PW_POSTGRES}"
+            NODE_ENV: "${MYAEGEE_ENV}"
+            HOST: "${SUBDOMAIN_FRONTEND}${BASE_URL}"
+            CORE_LOGIN: "${CORE_LOGIN}"
+            CORE_PASSWORD: "${CORE_PASSWORD}"
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:8084/healthcheck"]
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 40s
+        # cpu_count: 1
+        # mem_limit: 900m
+        labels:
+            - "traefik.backend=strategy"
+            - "traefik.port=8084"
+            - "traefik.old.frontend.rule=PathPrefixStrip:/services/oms-strategy/api;"
+            - "traefik.new.frontend.rule=PathPrefixStrip:/api/strategy;"
+            - "traefik.old.frontend.priority=110"
+            - "traefik.new.frontend.priority=110"
+            - "traefik.enable=true"
+volumes:
+    postgres-strategy:
+        driver: local
+    strategy-media:
+        driver: local
+    shared:
+        driver: local
+
+networks:
+    default:
+        external:
+            name: OMS
