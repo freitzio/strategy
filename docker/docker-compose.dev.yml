@@ -1,0 +1,14 @@
+version: "3.4"
+
+services:
+  strategy:
+    build:
+      context: ./${PATH_STRATEGY}/..
+      dockerfile: ./docker/strategy/Dockerfile
+    image: aegee/strategy:dev
+    command: sh -c "sh /usr/app/scripts/bootstrap.sh && nodemon -e 'js,json' lib/run.js | bunyan"
+    volumes:
+      - ./${PATH_STRATEGY}/../config:/usr/app/src/config
+      - ./${PATH_STRATEGY}/../lib:/usr/app/src/lib
+      - ./${PATH_STRATEGY}/../migrations:/usr/app/src/migrations
+      - ./${PATH_STRATEGY}/../models:/usr/app/src/models
