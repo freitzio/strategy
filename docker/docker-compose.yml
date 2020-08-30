@@ -39,10 +39,8 @@ services:
         labels:
             - "traefik.backend=strategy"
             - "traefik.port=8084"
-            - "traefik.old.frontend.rule=PathPrefixStrip:/services/oms-strategy/api;"
-            - "traefik.new.frontend.rule=PathPrefixStrip:/api/strategy;"
-            - "traefik.old.frontend.priority=110"
-            - "traefik.new.frontend.priority=110"
+            - "traefik.frontend.rule=PathPrefixStrip:/api/strategy;"
+            - "traefik.frontend.priority=110"
             - "traefik.enable=true"
 volumes:
     postgres-strategy:
