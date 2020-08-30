@@ -1,0 +1,28 @@
+{
+  "name": "strategy",
+  "version": "1.0.0",
+  "description": "Backend module for the Strategic Framework of AEGEE.",
+  "main": "server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AEGEE/strategy.git"
+  },
+  "author": "Zurita",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/AEGEE/strategy/issues"
+  },
+  "homepage": "https://github.com/AEGEE/strategy#readme",
+  "dependencies": {
+    "bugsnag": "^2.4.3",
+    "commitlint": "^9.1.0",
+    "eslint": "^7.6.0",
+    "express": "^4.17.1",
+    "sequelize": "^6.3.3",
+    "swagger-ui-express": "^4.1.4",
+    "yamljs": "^0.3.0"
+  }
+}
