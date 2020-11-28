@@ -1,0 +1,78 @@
+openapi: 3.0.1
+info:
+  title: Strategy Module
+  description: This is the Strategy Module of AEGEE-Europe
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.1
+paths:
+  /actionagenda/{aaId}:
+    get:
+      tags:
+      - Action Agenda
+      summary: Display a specified Action Agenda
+      description: For valid response try integer IDs with value >= 1 and <= 10.         Other
+        values will generated exceptions
+      operationId: getActionAgendaById
+      parameters:
+      - name: aaId
+        in: path
+        description: ID of Action Agenda that needs to be fetched
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Get specified Action Agenda
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionAgenda'
+        400:
+          description: Invalid Action Agenda ID supplied
+          content: {}
+        404:
+          description: Action Agenda not found
+          content: {}
+components:
+  schemas:
+    ActionAgenda:
+      type: array
+      items:
+        $ref: '#/components/schemas/FocusArea'
+    FocusArea:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Climate Emergency'
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'
+    Action:
+      type: object
+      properties:
+        title: 
+          type: string
+          example: "Action Title"
+        description:
+          type: string
+          example: "Action Description"
+        indicators:
+          type: array
+          items:
+            $ref: "#/components/schemas/Indicator"
+    Indicator:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Indicator Name"
+        minimum:
+          type: integer
+          example: 1
+        maximum:
+          type: integer
+          example: 5
