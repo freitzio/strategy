@@ -12,8 +12,8 @@ paths:
       tags:
       - Action Agenda
       summary: Display a specified Action Agenda
-      description: For valid response try integer IDs with value >= 1 and <= 10.         Other
-        values will generated exceptions
+      description: > 
+        Get an Action Agenda by its ID
       operationId: getActionAgendaById
       parameters:
       - name: aaId
@@ -22,6 +22,7 @@ paths:
         required: true
         schema:
           type: string
+          example: '1'
       responses:
         200:
           description: Get specified Action Agenda
@@ -35,15 +36,35 @@ paths:
         404:
           description: Action Agenda not found
           content: {}
+        default:
+          description: Error
+          
 components:
   schemas:
     ActionAgenda:
-      type: array
-      items:
-        $ref: '#/components/schemas/FocusArea'
+      type: object
+      required:
+        - aaId
+        - focusAreas
+      properties:
+        aaId:
+          type: string
+          example: '1'
+        focusAreas: 
+          type: array
+          items:
+            $ref: '#/components/schemas/FocusArea'
+        
     FocusArea:
       type: object
+      required:
+        - faId
+        - name
+        - actions
       properties:
+        faId:
+          type: string
+          example: '1'
         name:
           type: string
           example: 'Climate Emergency'
@@ -51,9 +72,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Action'
+            
     Action:
       type: object
+      required:
+        - aId
+        - title
+        - description
+        - indicators
       properties:
+        aId:
+          type: string
+          example: '1'
         title: 
           type: string
           example: "Action Title"
@@ -64,9 +94,18 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Indicator"
+            
     Indicator:
       type: object
+      required:
+        - iId
+        - name
+        - minimum
+        - maximum
       properties:
+        iId:
+          type: string
+          example: '1'
         name:
           type: string
           example: "Indicator Name"
@@ -76,3 +115,4 @@ components:
         maximum:
           type: integer
           example: 5
+          
